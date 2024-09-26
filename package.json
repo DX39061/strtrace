@@ -1,0 +1,17 @@
+{
+  "name": "strtrace",
+  "version": "0.1.0",
+  "description": "A simple script to trace string and objc object in ios app",
+  "private": true,
+  "main": "strtrace.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "frida-compile strtrace.ts -o strtrace.js -c",
+    "watch": "frida-compile strtrace.ts -o strtrace.js -w"
+  },
+  "devDependencies": {
+    "@types/frida-gum": "^18.5.1",
+    "@types/node": "^18.19.3",
+    "frida-compile": "^16.4.1"
+  }
+}
