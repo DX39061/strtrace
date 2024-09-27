@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import frida
 import sys
+import os
 
 def on_message(message, _):    
     if message['type'] == 'send':
@@ -34,7 +35,8 @@ def main(app_name, module_name, function_offset):
     device = frida.get_usb_device()
     target_process = device.get_process(app_name)
     session = device.attach(target_process.pid)
-    script = session.create_script(open("strtrace.js").read())
+    js_file = os.path.abspath(__file__).replace("strtrace.py", "strtrace.js")    
+    script = session.create_script(open(js_file).read())
     script.on('message', on_message)
     script.load()
     script.post({"type": "args", "data": args})
