@@ -130,6 +130,7 @@ function extract_string(reg_val: NativePointer) {
   return null;
 }
 
+var is_tracing = false;
 function set_trace(module_name: string, function_offset: number) {
   let module: Module = Process.getModuleByName(module_name);
   let func_addr: NativePointer = module.base.add(function_offset);
@@ -145,6 +146,10 @@ function set_trace(module_name: string, function_offset: number) {
           func_addr.sub(module.base) +
           "-----------------"
       );
+      if (is_tracing) {
+        return;
+      }
+      is_tracing = true;
       this.current_pid = Process.getCurrentThreadId();
       Stalker.follow(this.current_pid, {
         transform: (iterator: StalkerArm64Iterator) => {
