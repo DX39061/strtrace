@@ -60,6 +60,9 @@ function extract_string(reg_val: NativePointer) {
   try {
     // console.log("reg_val: " + reg_val);
     const classPtr = object_getClass(reg_val);
+    if (!is_valid_pointer(classPtr)) {
+      throw new Error("Invalid object");
+    }
     const class_name = class_getName(classPtr).readUtf8String();
     if (classPtr === null || class_name === null || class_name === "nil") {
       throw new Error("Invalid object");
